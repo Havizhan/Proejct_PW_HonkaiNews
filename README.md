@@ -1,13 +1,36 @@
 # Honkai Star Rail News - Laravel Application
 
-Aplikasi berita sederhana tentang game Honkai Star Rail dengan fitur CRUD dan autentikasi admin, menggunakan framework Laravel.
+Aplikasi berita sederhana tentang game Honkai Star Rail dengan fitur CRUD, autentikasi admin dan user, menggunakan framework Laravel.
 
 ## Fitur
 
-- Autentikasi Admin
-- CRUD Berita
+- Autentikasi (Admin dan User)
+  - Login
+  - Register
+- CRUD Berita (Create, Read, Update, Delete)
 - Upload Gambar
-- Tampilan yang Responsif dengan Tailwind CSS
+- Tampilan Responsif menggunakan Tailwind CSS
+- Dashboard Admin untuk mengelola berita
+
+## Implementasi Tugas
+
+### Tugas 8 - Laravel 1 (MVC) Routes
+- **Model**: `App\Models\News.php`, `App\Models\User.php`
+- **View**: Halaman pada `resources/views/` termasuk news dan auth
+- **Controller**: `App\Http\Controllers\NewsController.php`, `App\Http\Controllers\Auth\*`
+- **Routes**: `routes/web.php` (web routes dengan middleware auth)
+
+### Tugas 9 - Migration, Seeder & Factory, dan Authentication
+- **Migration**: Database schema dibuat menggunakan migration Laravel
+- **Seeder**: Pembuatan data awal menggunakan database seeder
+- **Factory**: Pembuatan data dummy menggunakan factory
+- **Authentication**: Laravel UI dengan fitur login dan register
+
+### Tugas 10 - CRUD
+- **Create**: Tambah berita baru pada `/news/create`
+- **Read**: Tampilkan daftar berita pada `/news` dan detail pada `/news/{id}`
+- **Update**: Edit berita pada `/news/{id}/edit`
+- **Delete**: Hapus berita menggunakan method DELETE
 
 ## Persyaratan
 
@@ -63,23 +86,33 @@ Aplikasi berita sederhana tentang game Honkai Star Rail dengan fitur CRUD dan au
 
 7. Akses aplikasi melalui browser di `http://127.0.0.1:8000`.
 
-## Akun Admin
+## Akun Demo
 
-Anda dapat login ke sistem dengan kredensial berikut:
-
+### Admin
 - Email: admin@gmail.com
 - Password: admin123
 
+### User
+- Anda dapat mendaftar sebagai user baru melalui halaman Register
+
 ## Struktur MVC
 
-- **Model**: `App\Models\News.php` - Model untuk data berita
+- **Model**: 
+  - `App\Models\News.php` - Model untuk data berita
+  - `App\Models\User.php` - Model untuk data pengguna
+
 - **View**: Terletak di `resources/views/`
   - `news/index.blade.php` - Tampilan daftar berita
   - `news/show.blade.php` - Tampilan detail berita
   - `news/create.blade.php` - Form tambah berita
   - `news/edit.blade.php` - Form edit berita
   - `auth/login.blade.php` - Halaman login
-- **Controller**: `App\Http\Controllers\NewsController.php` - Menangani logika aplikasi
+  - `auth/register.blade.php` - Halaman pendaftaran
+
+- **Controller**: 
+  - `App\Http\Controllers\NewsController.php` - Controller berita
+  - `App\Http\Controllers\Auth\*` - Controller autentikasi
+
 - **Routes**: `routes/web.php` - Definisi rute web
 
 ## Dibuat Oleh

@@ -24,9 +24,14 @@
                     </div>
                 @else
                     <!-- Menu untuk user yang belum login -->
-                    <a href="{{ route('login') }}" class="hover:text-accent transition duration-300 border border-white px-4 py-1.5 rounded-full">
-                        Login
-                    </a>
+                    <div class="flex items-center space-x-4">
+                        <a href="{{ route('login') }}" class="hover:text-accent transition duration-300">
+                            Login
+                        </a>
+                        <a href="{{ route('register') }}" class="hover:text-accent transition duration-300 border border-white px-4 py-1.5 rounded-full">
+                            Register
+                        </a>
+                    </div>
                 @endauth
             </div>
         </div>

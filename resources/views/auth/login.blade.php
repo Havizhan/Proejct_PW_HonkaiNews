@@ -93,9 +93,14 @@
                             Login
                         </button>
                         
-                        <a href="{{ route('news.index') }}" class="w-full text-center py-2 px-4 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition duration-300">
-                            Kembali ke Beranda
-                        </a>
+                        <div class="flex justify-between">
+                            <a href="{{ route('register') }}" class="text-sm text-primary hover:underline">
+                                Belum punya akun? Daftar
+                            </a>
+                            <a href="{{ route('news.index') }}" class="text-sm text-gray-600 hover:underline">
+                                Kembali ke Beranda
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>

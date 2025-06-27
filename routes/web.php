@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Auth;
 // Authentication routes
 Auth::routes();
 
-// Homepage - redirect to news
+// Homepage - redirect to login
 Route::get('/', function () {
-    return redirect()->route('news.index');
+    return redirect()->route('login');
 });
 
 // Admin News routes (protected by auth middleware)
