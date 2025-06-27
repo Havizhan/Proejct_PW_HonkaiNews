@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+@php
+use Illuminate\Support\Facades\Auth;
+@endphp
+
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -33,15 +37,23 @@
             <h1 class="text-2xl sm:text-3xl font-bold text-primary">Daftar Berita</h1>
             
             @auth
-                <a href="{{ route('dashboard') }}" class="bg-primary text-white px-4 py-2 rounded-full hover:bg-secondary transition duration-300">
-                    Dashboard Admin
-                </a>
+                @if(auth()->user()->is_admin)
+                    <a href="{{ route('dashboard') }}" class="bg-primary text-white px-4 py-2 rounded-full hover:bg-secondary transition duration-300">
+                        Dashboard Admin
+                    </a>
+                @endif
             @endauth
         </div>
 
         @if (session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6" role="alert">
                 {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6" role="alert">
+                {{ session('error') }}
             </div>
         @endif
 
@@ -91,21 +103,23 @@
                                 </a>
                                 
                                 @auth
-                                    <a href="{{ route('news.edit', $item->id) }}" class="text-indigo-500 hover:text-secondary transition duration-300">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 0L11.828 15H9v-2.828l8.586-8.586z" />
-                                        </svg>
-                                    </a>
-                                    
-                                    <form action="{{ route('news.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:text-red-700 transition duration-300">
+                                    @if(Auth::user()->is_admin ?? false)
+                                        <a href="{{ route('news.edit', $item->id) }}" class="text-indigo-500 hover:text-secondary transition duration-300">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 0L11.828 15H9v-2.828l8.586-8.586z" />
                                             </svg>
-                                        </button>
-                                    </form>
+                                        </a>
+                                        
+                                        <form action="{{ route('news.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-500 hover:text-red-700 transition duration-300">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
                                 @endauth
                             </div>
                         </div>

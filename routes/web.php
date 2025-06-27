@@ -27,7 +27,20 @@ Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show'); //
 
 // Admin Dashboard
 Route::get('/dashboard', function() {
+    // Redirect non-admin user
+    if (!Auth::user() || !Auth::user()->is_admin) {
+        return redirect()->route('news.index')->with('error', 'Anda tidak memiliki hak akses ke halaman tersebut.');
+    }
+    
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Profile routes
+Route::middleware(['auth'])->group(function() {
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/password', [App\Http\Controllers\ProfileController::class, 'editPassword'])->name('profile.password');
+    Route::put('/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password.update');
+});

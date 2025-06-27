@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
+    public function __construct()
+    {
+        // Hanya fungsi create, store, edit, update, destroy yang membutuhkan auth
+        // Periksa apakah user adalah admin di dalam method
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+    
     // Tampilkan semua berita (public)
     public function index()
     {
@@ -27,12 +35,22 @@ class NewsController extends Controller
     // Tampilkan form tambah berita (admin only)
     public function create()
     {
+        // Redirect non-admin user
+        if (!Auth::user()->is_admin) {
+            return redirect()->route('news.index')->with('error', 'Anda tidak memiliki hak akses ke halaman tersebut.');
+        }
+        
         return view('news.create');
     }
 
     // Simpan berita baru (admin only)
     public function store(Request $request)
     {
+        // Redirect non-admin user
+        if (!Auth::user()->is_admin) {
+            return redirect()->route('news.index')->with('error', 'Anda tidak memiliki hak akses untuk melakukan tindakan ini.');
+        }
+        
         $request->validate([
             'judul' => 'required|max:255',
             'deskripsi' => 'required',
@@ -66,6 +84,11 @@ class NewsController extends Controller
     // Tampilkan form edit berita (admin only)
     public function edit($id)
     {
+        // Redirect non-admin user
+        if (!Auth::user()->is_admin) {
+            return redirect()->route('news.index')->with('error', 'Anda tidak memiliki hak akses ke halaman tersebut.');
+        }
+        
         $news = News::findOrFail($id);
         return view('news.edit', compact('news'));
     }
@@ -73,6 +96,11 @@ class NewsController extends Controller
     // Update berita (admin only)
     public function update(Request $request, $id)
     {
+        // Redirect non-admin user
+        if (!Auth::user()->is_admin) {
+            return redirect()->route('news.index')->with('error', 'Anda tidak memiliki hak akses untuk melakukan tindakan ini.');
+        }
+        
         $request->validate([
             'judul' => 'required|max:255',
             'deskripsi' => 'required',
@@ -113,6 +141,11 @@ class NewsController extends Controller
     // Delete berita (admin only)
     public function destroy($id)
     {
+        // Redirect non-admin user
+        if (!Auth::user()->is_admin) {
+            return redirect()->route('news.index')->with('error', 'Anda tidak memiliki hak akses untuk melakukan tindakan ini.');
+        }
+        
         $news = News::findOrFail($id);
         
         // Delete image if exists
